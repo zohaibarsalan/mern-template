@@ -5,11 +5,18 @@
   "type": "module",
   "description": "A template for MERN stack that has specific features for production applications",
   "scripts": {
+    "backend": "nodemon backend/app.js",
+    "frontend": "yarn --cwd frontend dev",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\" ",
     "format": "prettier . --write"
   },
   "keywords": [],
   "author": "Zohaib Arsalan",
   "devDependencies": {
     "prettier": "^3.2.5"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.0"
   }
 }

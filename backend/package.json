@@ -5,11 +5,16 @@
   "type": "module",
   "description": "The backend for the MERN template",
   "main": "app.js",
-  "scripts": {},
+  "scripts": {
+    "dev": "node app.js"
+  },
   "keywords": [],
   "author": "Zohaib Arsalan",
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
   }
 }
