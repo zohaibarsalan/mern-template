@@ -1,0 +1,15 @@
+{
+  "name": "backend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "The backend for the MERN template",
+  "main": "app.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "Zohaib Arsalan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
