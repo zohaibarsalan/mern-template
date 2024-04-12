@@ -12,11 +12,11 @@
   },
   "keywords": [],
   "author": "Zohaib Arsalan",
-  "devDependencies": {
-    "prettier": "^3.2.5"
-  },
   "dependencies": {
     "concurrently": "^8.2.2",
     "nodemon": "^3.1.0"
+  },
+  "devDependencies": {
+    "prettier": "3.2.5"
   }
 }
