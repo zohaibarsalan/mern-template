@@ -5,7 +5,7 @@
   "type": "module",
   "description": "A template for MERN stack that has specific features for production applications",
   "scripts": {
-    "backend": "nodemon backend/app.js",
+    "backend": "nodemon --env-file backend/.env backend/app.js",
     "frontend": "yarn --cwd frontend dev",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\" ",
     "format": "prettier . --write"
