@@ -24,7 +24,8 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const { response, config } = error;
-    if (response.status === 403) {
+    if (response.status === 401) {
+      // Token is expired
       let refreshToken = localStorage.getItem('refreshToken');
       if (refreshToken) {
         try {
@@ -36,7 +37,7 @@ api.interceptors.response.use(
           if (newAccessToken) {
             localStorage.setItem('accessToken', newAccessToken);
 
-            config.headers['Authorization'] = newAccessToken;
+            config.headers.Authorization = `Bearer ${newAccessToken}`;
             return api(config);
           }
         } catch (error) {

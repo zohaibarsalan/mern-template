@@ -7,5 +7,5 @@ export const CheckAllFields = (fields) => {
       return false; // Return false if any field is empty or contains only whitespace
     }
   }
-  return true; // Return true if all fields are filled
+  return true;
 };

@@ -1,7 +1,52 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { EmailCheck } from '../Utils/Functions/EmailCheck.js';
+import { PasswordCheck } from '../Utils/Functions/PasswordCheck.js';
+import { CheckAllFields } from '../Utils/Functions/CheckAllFields.js';
+import { PasswordMatch } from '../Utils/Functions/PasswordMatch.js';
+import { api } from '../Utils/Configs/AxiosConfig.js';
 
 const SignUp = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
+
+  const signup = async () => {
+    const data = { firstName, lastName, email, password, confirmPassword };
+
+    if (
+      !CheckAllFields([firstName, lastName, email, password, confirmPassword])
+    ) {
+      return false;
+    }
+    if (!EmailCheck(email)) {
+      return false;
+    }
+    if (!PasswordCheck(password)) {
+      return false;
+    }
+    if (!PasswordMatch(password, confirmPassword)) {
+      return false;
+    }
+
+    try {
+      await api
+        .post('/public/signup', response)
+        .then((response) => {
+          console.log(response);
+          navigate('/login');
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex flex-col justify-center items-center min-h-screen relative overflow-hidden bg-gradient-to-br from-white to-sky-500 mix-blend-multiply dark:bg-gradient-to-br dark:from-black dark:to-sky-900">
       {/* Abstract Shapes */}
@@ -37,6 +82,8 @@ const SignUp = () => {
               <input
                 className="w-full block bg-transparent text-gray-800 dark:text-gray-200 border-b-2 border-sky-500 py-2 focus:outline-none focus:border-sky-600 placeholder-gray-500 dark:placeholder-gray-400"
                 type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
               />
             </div>
             <div className="mb-6">
@@ -44,6 +91,8 @@ const SignUp = () => {
               <input
                 className="w-full block bg-transparent text-gray-800 dark:text-gray-200 border-b-2 border-sky-500 py-2  focus:outline-none focus:border-sky-600 placeholder-gray-500 dark:placeholder-gray-400"
                 type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
               />
             </div>
             <div className="mb-6">
@@ -51,6 +100,8 @@ const SignUp = () => {
               <input
                 className="w-full block bg-transparent text-gray-800 dark:text-gray-200 border-b-2 border-sky-500 py-2  focus:outline-none focus:border-sky-600 placeholder-gray-500 dark:placeholder-gray-400"
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="mb-6">
@@ -58,6 +109,8 @@ const SignUp = () => {
               <input
                 className="w-full block bg-transparent text-gray-800 dark:text-gray-200 border-b-2 border-sky-500 py-2  focus:outline-none focus:border-sky-600 placeholder-gray-500 dark:placeholder-gray-400"
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div className="mb-8">
@@ -65,11 +118,14 @@ const SignUp = () => {
               <input
                 className="w-full block bg-transparent text-gray-800 dark:text-gray-200 border-b-2 border-sky-500 py-2  focus:outline-none focus:border-sky-600 placeholder-gray-500 dark:placeholder-gray-400"
                 type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
             <button
               className="w-full bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
               type="submit"
+              onClick={signup}
             >
               Sign Up
             </button>

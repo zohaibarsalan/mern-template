@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { EmailCheck } from '@/Utils/Functions/EmailCheck.js';
-import { PasswordCheck } from '@/Utils/Functions/PasswordCheck.js';
+import { Link, useNavigate } from 'react-router-dom';
+import { EmailCheck } from '../Utils/Functions/EmailCheck.js';
+import { PasswordCheck } from '../Utils/Functions/PasswordCheck.js';
+import ThemeSwitcher from '../Components/ThemeSwitcher.jsx';
+import { api } from '../Utils/Configs/AxiosConfig.js';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const login = () => {
+  const login = async () => {
     const data = {
       email,
       password,
@@ -20,12 +23,30 @@ const Login = () => {
     if (!PasswordCheck(password)) {
       return false;
     }
-    console.log(data);
+
+    try {
+      await api
+        .post('/public/login', data)
+        .then((response) => {
+          console.log(response);
+          localStorage.setItem('accessToken', response.data.accessToken);
+          localStorage.setItem('refreshToken', response.data.refreshToken);
+          navigate('/');
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen relative overflow-hidden bg-gradient-to-br from-white to-sky-500 mix-blend-multiply dark:bg-gradient-to-br dark:from-black dark:to-sky-900">
       {/*<ParallaxBackground />*/}
+
+      <ThemeSwitcher />
+
       {/* Abstract Shapes */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
         <div className="absolute w-80 h-80 bg-sky-300 opacity-40 mix-blend-multiply transform rotate-45 -translate-x-20 -translate-y-20"></div>
